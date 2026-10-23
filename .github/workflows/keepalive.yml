@@ -1,0 +1,21 @@
+name: keepalive
+
+# GitHub turns off scheduled workflows in a public repository after 60 days without
+# activity. Re-enabling the pulse workflow through the API once a month resets that.
+on:
+  schedule:
+    - cron: "17 6 1 * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  enable:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Re-enable the pulse workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/pulse.yml/enable"

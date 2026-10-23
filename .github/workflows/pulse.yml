@@ -1,0 +1,40 @@
+name: pulse
+
+on:
+  schedule:
+    # Every 5 minutes, off the top of the hour (GitHub delays and drops runs at :00).
+    - cron: "2-59/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      drill_url:
+        description: "Check only this URL (use one that is down to test the alert path)"
+        required: false
+        default: ""
+
+permissions:
+  issues: write
+
+concurrency:
+  group: pulse
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check every target
+        env:
+          DRILL_URL: ${{ inputs.drill_url }}
+        run: |
+          targets=targets.txt
+          if [ -n "$DRILL_URL" ]; then printf '%s\n' "$DRILL_URL" > drill.txt; targets=drill.txt; fi
+          ./check.sh "$targets" > down.txt || true
+          cat down.txt
+      - name: Open, update or close the outage issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: ./alert.sh down.txt

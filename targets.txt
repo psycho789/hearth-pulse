@@ -1,0 +1,4 @@
+https://airo.infinite-iterations.com/healthz
+https://airo.infinite-iterations.com/
+https://airo.infinite-iterations.com/get/install.sh
+https://size-nova.com/api/health
