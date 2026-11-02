@@ -1,4 +1,12 @@
 https://airo.infinite-iterations.com/healthz
 https://airo.infinite-iterations.com/
 https://airo.infinite-iterations.com/get/install.sh
+https://airo-preview.infinite-iterations.com/__airo/health
+https://demo.infinite-iterations.com/healthz
+https://demo.infinite-iterations.com/
+https://fairline.infinite-iterations.com/healthz
+https://games.infinite-iterations.com/healthz
 https://size-nova.com/api/health
+https://infinite-iterations.com/healthz
+https://infinite-iterations.com/
+https://infinite-iterations.com/assets/css/main.css
